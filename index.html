@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>촉나라 여행기 · 청두 4박 5일</title>
+<style>
+  :root {
+    --red: #a3262a;
+    --red-dark: #7a1b1f;
+    --gold: #c9a24a;
+    --bg: #f7f2e8;
+    --card: #fffdf8;
+    --ink: #2b2420;
+    --muted: #7a6e64;
+    --line: #e6dccb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.6 "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  }
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--red);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  }
+  .bar {
+    max-width: 1100px; margin: 0 auto; padding: 0 16px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .brand { font-weight: 800; font-size: 18px; padding: 12px 0; letter-spacing: .02em; }
+  .brand span { color: var(--gold); }
+  nav { display: flex; gap: 4px; flex-wrap: wrap; margin-left: auto; }
+  nav button {
+    background: none; border: 0; color: #f3dede; cursor: pointer;
+    font: inherit; font-weight: 600; padding: 14px 12px;
+    border-bottom: 3px solid transparent;
+  }
+  nav button:hover { color: #fff; }
+  nav button.active { color: #fff; border-bottom-color: var(--gold); }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 60px; }
+  section[hidden] { display: none; }
+
+  .hero { text-align: center; margin-bottom: 24px; }
+  .hero h1 { margin: 0 0 6px; font-size: clamp(26px, 5vw, 40px); color: var(--red-dark); }
+  .hero p { margin: 0; color: var(--muted); }
+  .map { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+  .map img { width: 100%; display: block; border-radius: 8px; }
+  .days { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 20px; }
+  .days button {
+    text-align: left; cursor: pointer; font: inherit; color: inherit;
+    background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--red);
+    border-radius: 10px; padding: 12px 14px;
+  }
+  .days button:hover { border-color: var(--gold); border-left-color: var(--red); }
+  .days b { display: block; color: var(--red-dark); }
+  .days small { color: var(--muted); }
+
+  .day-head { margin-bottom: 18px; }
+  .day-head h2 { margin: 0; font-size: 26px; color: var(--red-dark); }
+  .day-head p { margin: 4px 0 0; color: var(--muted); }
+
+  .group {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px; margin-bottom: 16px;
+  }
+  .group h3 { margin: 0; font-size: 18px; }
+  .group h3 .tag {
+    display: inline-block; font-size: 12px; font-weight: 700; color: #fff;
+    background: var(--gold); border-radius: 999px; padding: 1px 9px; margin-right: 6px; vertical-align: 2px;
+  }
+  .group p { margin: 4px 0 12px; color: var(--muted); font-size: 14px; }
+  .group .info {
+    margin: -4px 0 12px; padding: 8px 12px; font-size: 13.5px; color: var(--ink);
+    background: #f4ece0; border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0;
+  }
+  .group .info ul { margin: 0; padding-left: 18px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+  .grid figure { margin: 0; position: relative; cursor: zoom-in; overflow: hidden; border-radius: 8px; background: #ddd; }
+  .grid img, .grid video { width: 100%; height: 150px; object-fit: cover; display: block; transition: transform .25s; }
+  .grid figure:hover img { transform: scale(1.05); }
+  .grid figcaption {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 8px 5px;
+    font-size: 12px; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.6));
+  }
+  .grid video { cursor: default; }
+
+  .lightbox {
+    position: fixed; inset: 0; z-index: 100; background: rgba(15,10,8,.92);
+    display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px;
+  }
+  .lightbox[hidden] { display: none; }
+  .lightbox img { max-width: 92vw; max-height: 84vh; border-radius: 6px; }
+  .lightbox .cap { color: #eee; font-size: 14px; }
+  .lightbox button {
+    position: absolute; background: rgba(255,255,255,.12); color: #fff; border: 0;
+    font-size: 28px; width: 48px; height: 48px; border-radius: 50%; cursor: pointer;
+  }
+  .lightbox .prev { left: 16px; top: 50%; }
+  .lightbox .next { right: 16px; top: 50%; }
+  .lightbox .close { right: 16px; top: 16px; font-size: 22px; }
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding-bottom: 30px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="brand">蜀 <span>촉나라 여행기</span></div>
+    <nav id="nav"></nav>
+  </div>
+</header>
+
+<main id="main"></main>
+<footer>청두 4박 5일 · 2026</footer>
+
+<div class="lightbox" id="lightbox" hidden>
+  <button class="close" aria-label="닫기">✕</button>
+  <button class="prev" aria-label="이전">‹</button>
+  <img alt="">
+  <div class="cap"></div>
+  <button class="next" aria-label="다음">›</button>
+</div>
+
+<script>
+/* 일정 데이터: 폴더 하나 = 그룹 하나 */
+const days = [
+  {
+    id: 'day1', label: '1일차', title: '1일차 · 도착, 그리고 두리안',
+    summary: '청두 도착 후 첫 저녁은 꼬치구이. 두리안 스테이크 여파로 일찍 취침.',
+    groups: [
+      { dir: 'images/1day/1.천부국제금융센터 쌍둥이 빌딩', title: '천부국제금융센터 쌍둥이 빌딩',
+        desc: '청두의 첫 인상, 쌍둥이 빌딩.',
+        info: ['청두 남쪽 신시가지 금융가의 랜드마크. 고도(古都) 청두의 현대적인 얼굴.'],
+        files: ['1.jpg', '2.jpg'] },
+      { dir: 'images/1day/2.(저녁식사)허스샤오카오', tag: '저녁', title: '허스샤오카오 (何师烧烤)',
+        desc: '청두 대표 꼬치구이집. 문제의 두리안 스테이크…',
+        info: ['샤오카오(烧烤, 꼬치구이)는 청두 야식 문화의 중심. 고춧가루·쯔란·화자오(산초)로 맵고 얼얼한 마라(麻辣) 맛을 낸다.'],
+        files: ['두리안 스테이크.jpg', '마파두부(화자오맛).jpg', '카오우화러우(烤五花肉) — 삼겹살 꼬치구이.jpg', '카오위.jpg'] },
+      { dir: 'images/1day/3.숙소 앞 털두부', title: '숙소 앞 털두부',
+        desc: '컨디션 저하로 일정 포기, 털두부만 맛보고 일찍 취침.',
+        info: ['털두부(毛豆腐): 두부 표면에 하얀 털 같은 곰팡이를 피워 발효시킨 뒤 구워 먹는 음식. 안후이성 후이저우 지방이 원조.'],
+        files: ['KakaoTalk_20261027_095337536_29.jpg'] },
+    ],
+  },
+  {
+    id: 'day2', label: '2일차', title: '2일차 · 삼국지 속으로',
+    summary: '무후사에서 촉한의 영웅들을 만나고, 훠궈로 마무리.',
+    groups: [
+      { dir: 'images/2day/1.(아침식사)배달음식', tag: '아침', title: '배달음식',
+        desc: '숙소에서 배달로 간단히.', files: ['6cb3b412-7f39-444f-aa33-fe7a4405f4b4.png'] },
+      { dir: 'images/2day/2.무후사', title: '무후사 (武侯祠)',
+        desc: '제갈량과 유비를 모신 사당. 촉한의 문무관이 늘어선 곳.',
+        info: [
+          '이름은 제갈량의 시호 \'충무후(忠武侯)\'에서 유래. 223년 유비가 묻힌 혜릉(惠陵) 옆에 사당이 세워졌다.',
+          '황제(유비)와 신하(제갈량)를 한곳에 모신 중국 유일의 군신합묘(君臣合廟). 현재 건물은 청 강희 11년(1672) 재건.',
+          '양쪽 회랑에 촉한의 문신·무장 소상이 늘어서 있다.',
+        ],
+        files: ['전체 뷰.jpg', '유비.jpg', '관우.jpg', '장비.jpg', '제갈공명 사당.jpg', '제갈공명.jpg', '좌측 무관.jpg', '우측 문관.jpg'] },
+      { dir: 'images/2day/3.(점심식사)타오더 사궈 잉먼커우점', tag: '점심', title: '타오더 사궈 잉먼커우점 (陶德砂锅)',
+        desc: '새우 당면 맛집.',
+        info: ['사궈(砂锅): 질그릇 뚝배기에 재료를 넣고 끓이는 요리. 열이 오래 유지돼 당면에 국물이 푹 밴다.'],
+        files: ['KakaoTalk_20261027_094802648_27.jpg', 'KakaoTalk_20261027_094802648_28.jpg'] },
+      { dir: 'images/2day/4.영릉박물관', title: '영릉박물관 (永陵)',
+        desc: '전촉 황제 왕건의 무덤.',
+        info: [
+          '당 멸망 후 오대십국 시대, 촉 땅에 세워진 전촉(前蜀, 907~925)의 개국 황제 왕건(王建, 847~918)의 능.',
+          '1940년대 발굴된, 중국 최초로 과학적으로 조사된 황제릉. 지상에 봉분을 쌓고 그 안에 묘실을 둔 독특한 구조.',
+          '관대 둘레의 악기 연주 여인 24명 부조(二十四伎樂)는 당대 궁중음악을 보여주는 귀한 자료.',
+        ],
+        files: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', 'KakaoTalk_20261027_234806878_03.jpg', 'KakaoTalk_20261027_234806878_09.jpg', 'KakaoTalk_20261027_234806878_11.jpg'] },
+      { dir: 'images/2day/5.(저녁식사)촉대협 훠궈', tag: '저녁', title: '촉대협 훠궈 (蜀大侠火锅)',
+        desc: '본고장 쓰촨 훠궈.',
+        info: ['쓰촨 훠궈는 장강 부두의 뱃사공·짐꾼들이 값싼 소 내장을 맵게 끓여 먹던 데서 시작됐다고 전해진다.'],
+        files: ['KakaoTalk_20261027_095237230.mp4', 'KakaoTalk_20261027_095337536_10.jpg', 'KakaoTalk_20261027_095337536_14.jpg', 'KakaoTalk_20261027_095337536_18.jpg', 'KakaoTalk_20261027_095337536_23.jpg', 'KakaoTalk_20261027_095337536_24.jpg'] },
+    ],
+  },
+  {
+    id: 'day3', label: '3일차', title: '3일차 · 어메이산 정상까지',
+    summary: '기차·버스·도보·케이블카로 어메이산 정상. 저녁엔 춘시루.',
+    groups: [
+      { dir: 'images/3day/1.어메이산', title: '어메이산 (峨眉山) · 금정',
+        desc: '청두동역 → 어메이산역(1등석) → 셔틀 2h → 뇌동평 → 도보 30분 → 접인전 → 케이블카 → 정상. 금정사·사방십면보현보살. 고산병으로 하산.',
+        info: [
+          '최고봉 만불정(萬佛頂) 해발 3,099m, 금정(金頂) 약 3,077m. 1996년 낙산대불과 함께 유네스코 세계복합유산 지정.',
+          '무협지 \'아미파(峨眉派)\'의 본고장. 김용 소설에선 곽정·황용의 딸 곽양이 창시한 여성 중심 문파로 그려진다.',
+          '중국 불교 4대 명산 중 하나로, 4대 보살(문수-오대산, 보현-아미산, 관음-보타산, 지장-구화산) 중 보현보살의 성지(도량).',
+          '성지가 된 이유: 동한 시기 약초꾼 포공(蒲公)이 사슴 발자국을 쫓아 정상에 올랐다가 흰 코끼리를 탄 보현보살의 현신을 보고 절을 세웠다는 전설에서 비롯. 이후 보현 신앙의 중심지가 됐다.',
+          '사방십면보현(十方普賢): 금정의 높이 48m 금동 불상. 열 개의 얼굴은 보현보살의 10대 행원(十大願)과 시방(十方)을 상징.',
+        ],
+        files: ['KakaoTalk_20261027_085525602_22.jpg', 'KakaoTalk_20261027_085525602_24.jpg', 'KakaoTalk_20261027_085525602_29.jpg', 'KakaoTalk_20261027_085529929_08.jpg', 'KakaoTalk_20261027_095554685_06.webp', 'KakaoTalk_20261027_095554685_18.jpg', 'KakaoTalk_20261027_235919370_01.jpg', 'KakaoTalk_20261027_235919370_02.jpg', 'KakaoTalk_20261027_235919370_03.jpg'] },
+      { dir: 'images/3day/2.춘시루 ifs몰 팬더', title: '춘시루 · IFS몰 판다',
+        desc: 'IFS몰 옥상에 매달린 판다 구경.',
+        info: [
+          '춘시루(春熙路): 1920년대 조성된 청두 최대 번화가. 이름은 노자 『도덕경』의 "如登春臺(봄날 누대에 오른 듯)"·"熙熙"에서 따왔다.',
+          'IFS 판다: 건물 벽을 기어오르는 높이 약 15m의 판다 조형물 \'I am here\'.',
+        ],
+        files: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5 루이비똥.jpg', '6 춘시루길가.jpg'] },
+      { dir: 'images/3day/3.(저녁식사)춘시루 ifs몰 카오장', tag: '저녁', title: '카오장 (烤匠)',
+        desc: '카오위(쓰촨식 생선구이) 맛집.',
+        info: ['카오위(烤魚): 생선을 통째로 구운 뒤 마라 소스·채소와 함께 철판에 끓여 먹는 요리. 충칭 완저우(萬州)가 원조로 꼽힌다.'],
+        files: ['KakaoTalk_20261027_100901448_02.jpg', 'KakaoTalk_20261027_100901448_09.jpg'] },
+      { dir: 'images/3day/4.안순랑교', title: '안순랑교 (安顺廊桥)',
+        desc: '진강 위 지붕 있는 다리의 야경.',
+        info: ['원나라 때 처음 놓였고 마르코 폴로가 『동방견문록』에서 언급한 다리로 전해진다. 홍수로 유실된 뒤 2003년 지금의 모습으로 재건.'],
+        files: ['KakaoTalk_20261027_085446046_30.jpg'] },
+    ],
+  },
+  {
+    id: 'day4', label: '4일차', title: '4일차 · 판다와 차, 그리고 변검',
+    summary: '판다 기지에서 시작해 문수원·춘시루를 거쳐 변검과 차 한잔으로.',
+    groups: [
+      { dir: 'images/4day/1.판다 기지', title: '판다 기지',
+        desc: '청두의 주인공, 판다.',
+        info: ['정식 명칭 청두 대판다 번식연구기지. 1987년 야생에서 구조한 판다 6마리로 시작해 세계 최대 판다 번식·연구 기관이 됐다. 판다 서식지 대부분이 쓰촨성에 있다.'],
+        files: ['KakaoTalk_20261027_101459835_10.jpg', 'KakaoTalk_20261027_101459835_12.jpg', 'KakaoTalk_20261027_101545515_02.jpg', 'KakaoTalk_20261027_101545515_04.jpg', 'KakaoTalk_20261027_101545515_26.jpg'] },
+      { dir: 'images/4day/2.문수원 향원 심향소재', tag: '점심', title: '문수원 향원 심향소재',
+        desc: '사찰음식 채식 뷔페.',
+        info: ['고기를 쓰지 않고 두부·버섯·밀글루텐으로 고기 맛을 내는 중국식 사찰음식(素齋).'],
+        files: ['KakaoTalk_20261027_101638010_19.jpg', 'KakaoTalk_20261027_101638010_29.jpg'] },
+      { dir: 'images/4day/3.문수원 향원 평상심', tag: '다도', title: '평상심 (平常心)',
+        desc: '문수원 향원에서의 다도.',
+        info: ['\'평상심\'은 당나라 마조 선사의 선어 "평상심이 곧 도(平常心是道)"에서 온 말. 청두는 찻집 문화가 가장 발달한 도시로 꼽힌다.'],
+        files: ['KakaoTalk_20261027_101722110_24.jpg', 'KakaoTalk_20261028_000836370.jpg'] },
+      { dir: 'images/4day/4.문수원', title: '문수원 주변 상점거리',
+        desc: '사찰 주변 골목 산책.',
+        info: ['문수원(文殊院): 청두 최대의 불교 사찰. 수나라 때 신상사(信相寺)로 창건, 명말 전란으로 소실 후 청 강희 연간 재건. 문수보살이 현신했다는 전설로 \'문수원\'이 됐다.'],
+        files: ['KakaoTalk_20261027_101722110_08.jpg', 'KakaoTalk_20261028_001218538.jpg', 'KakaoTalk_20261028_001431246.jpg'] },
+      { dir: 'images/4day/5.춘시루 송천', title: '춘시루 · 마왕즈 → 송천',
+        desc: '마왕즈 도전 실패, 송천에서 재도전 성공!', files: ['KakaoTalk_20261027_102322848_25.jpg', 'KakaoTalk_20261027_102419807_30.jpg'] },
+      { dir: 'images/4day/6.춘시루 미니소 플래그십 스토어', title: '미니소 플래그십 스토어',
+        desc: '춘시루의 거대한 미니소.',
+        info: ['미니소(MINISO): 2013년 광저우에서 시작한 중국 생활용품 브랜드. 플래그십 매장은 캐릭터 IP 굿즈 위주.'],
+        files: ['KakaoTalk_20261028_002101348.jpg', 'KakaoTalk_20261028_002122098.jpg', 'KakaoTalk_20261028_002528017_01.jpg', 'KakaoTalk_20261028_002528017_02.jpg', 'KakaoTalk_20261028_002528017_03.jpg'] },
+      { dir: 'images/4day/7.촉풍아운 변검공연', title: '촉풍아운 (蜀风雅韵) 변검',
+        desc: '순식간에 바뀌는 쓰촨 변검.',
+        info: ['변검(變臉): 쓰촨 전통극 천극(川劇)의 대표 기예. 손짓·고갯짓 한 번에 가면이 바뀌며, 기법은 국가가 보호하는 비전(祕傳)이다.'],
+        files: ['KakaoTalk_20261027_102500057_10.jpg', 'KakaoTalk_20261028_002950440.jpg'] },
+      { dir: 'images/4day/8.사호차운', title: '사호차운 (砂壶茶韵)',
+        desc: '자사호·찻잎 전문점. 가게 주인과 차 한잔.',
+        info: ['자사호(紫砂壺): 장쑤성 이싱(宜興)의 자사 점토로 빚은 찻주전자. 명나라 때부터 명품으로 꼽혔고, 쓸수록 차향이 배어 길들여진다.'],
+        files: ['KakaoTalk_20261028_002028215.jpg', '그림1.png'] },
+    ],
+  },
+];
+
+const mainEl = document.getElementById('main');
+const navEl = document.getElementById('nav');
+const lightbox = document.getElementById('lightbox');
+let lightboxList = [];
+let lightboxIndex = 0;
+
+/**
+ * 파일명에서 사진 캡션을 만든다. 의미 없는 이름(카톡, 숫자, uuid)은 빈 문자열.
+ * @param {string} file 파일명
+ * @returns {string}
+ */
+function captionOf(file) {
+  const name = file.replace(/\.[^.]+$/, '').replace(/^\d+\s*/, '');
+  if (!name || /^KakaoTalk|^[0-9a-f-]{20,}$|^그림\d/.test(name)) return '';
+  return name;
+}
+
+/**
+ * HTML 특수문자를 이스케이프한다.
+ * @param {string} s
+ * @returns {string}
+ */
+function esc(s) {
+  return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
+/**
+ * 홈(오버뷰) 섹션 HTML을 만든다.
+ * @returns {string}
+ */
+function renderHome() {
+  const cards = days.map(d =>
+    `<button data-go="${d.id}"><b>${d.label}</b><small>${esc(d.summary)}</small></button>`).join('');
+  return `<section id="home">
+    <div class="hero">
+      <h1>촉나라 여행기를 소개합니다</h1>
+      <p>삼국지 촉한의 수도, 청두(成都) 4박 5일</p>
+    </div>
+    <div class="map"><img src="images/map.png" alt="청두 여행 전체 지도"></div>
+    <div class="days">${cards}</div>
+  </section>`;
+}
+
+/**
+ * 일차 섹션 HTML을 만든다.
+ * @param {object} day 일차 데이터
+ * @returns {string}
+ */
+function renderDay(day) {
+  const groups = day.groups.map(g => {
+    const items = g.files.map(f => {
+      const src = encodeURI(`${g.dir}/${f}`).replace(/#/g, '%23');
+      if (f.endsWith('.mp4')) {
+        return `<figure><video src="${src}" controls preload="metadata"></video></figure>`;
+      }
+      const cap = captionOf(f);
+      return `<figure data-src="${src}" data-cap="${esc(cap || g.title)}">
+        <img src="${src}" loading="lazy" alt="${esc(cap || g.title)}">
+        ${cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`;
+    }).join('');
+    const tag = g.tag ? `<span class="tag">${g.tag}</span>` : '';
+    const info = g.info ? `<div class="info"><ul>${g.info.map(i => `<li>${esc(i)}</li>`).join('')}</ul></div>` : '';
+    return `<div class="group"><h3>${tag}${esc(g.title)}</h3><p>${esc(g.desc)}</p>${info}<div class="grid">${items}</div></div>`;
+  }).join('');
+  return `<section id="${day.id}" hidden>
+    <div class="day-head"><h2>${esc(day.title)}</h2><p>${esc(day.summary)}</p></div>
+    ${groups}
+  </section>`;
+}
+
+/**
+ * 지정한 메뉴 섹션만 보이게 전환한다.
+ * @param {string} id 섹션 id
+ */
+function show(id) {
+  document.querySelectorAll('main section').forEach(s => { s.hidden = s.id !== id; });
+  navEl.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.go === id));
+  window.scrollTo(0, 0);
+  history.replaceState(null, '', `#${id}`);
+}
+
+/**
+ * 라이트박스에 현재 인덱스의 사진을 표시한다.
+ */
+function renderLightbox() {
+  const item = lightboxList[lightboxIndex];
+  lightbox.querySelector('img').src = item.dataset.src;
+  lightbox.querySelector('.cap').textContent = `${item.dataset.cap} (${lightboxIndex + 1}/${lightboxList.length})`;
+}
+
+/**
+ * 라이트박스 사진을 앞/뒤로 이동한다.
+ * @param {number} step 이동 칸 수
+ */
+function moveLightbox(step) {
+  lightboxIndex = (lightboxIndex + step + lightboxList.length) % lightboxList.length;
+  renderLightbox();
+}
+
+navEl.innerHTML = [{ id: 'home', label: '홈' }, ...days]
+  .map(d => `<button data-go="${d.id}">${d.label}</button>`).join('');
+mainEl.innerHTML = renderHome() + days.map(renderDay).join('');
+
+document.addEventListener('click', e => {
+  const go = e.target.closest('[data-go]');
+  if (go) return show(go.dataset.go);
+  const fig = e.target.closest('figure[data-src]');
+  if (fig) {
+    lightboxList = [...fig.closest('section').querySelectorAll('figure[data-src]')];
+    lightboxIndex = lightboxList.indexOf(fig);
+    renderLightbox();
+    lightbox.hidden = false;
+  }
+});
+lightbox.querySelector('.close').onclick = () => { lightbox.hidden = true; };
+lightbox.querySelector('.prev').onclick = () => moveLightbox(-1);
+lightbox.querySelector('.next').onclick = () => moveLightbox(1);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.hidden = true; });
+document.addEventListener('keydown', e => {
+  if (lightbox.hidden) return;
+  if (e.key === 'Escape') lightbox.hidden = true;
+  if (e.key === 'ArrowLeft') moveLightbox(-1);
+  if (e.key === 'ArrowRight') moveLightbox(1);
+});
+
+show(location.hash.slice(1) || 'home');
+</script>
+</body>
+</html>
